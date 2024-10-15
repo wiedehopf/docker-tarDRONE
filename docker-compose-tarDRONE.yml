@@ -1,0 +1,51 @@
+version: '3.8'
+services:
+  tar1090_mod:
+    environment:
+      - TZ=${TZ}
+      - LAT=${LAT}
+      - LONG=${LONG}
+    container_name: tar1090_mod
+    build:
+      context: ./tar1090_mod
+      dockerfile: Dockerfile
+    image: tar1090_mod:latest
+    ports: 
+      - 8078:80
+    tmpfs:
+      - /run:exec,size=64M
+      - /var/log
+    volumes:
+      - /opt/adsb/tar1090/globe_history:/var/globe_history
+      - /opt/adsb/tar1090/timelapse1090:/var/timelapse1090
+      - /opt/adsb/tar1090/graphs1090:/var/lib/collectd
+      - /proc/diskstats:/proc/diskstats:ro
+      - /run/readsb:/run/readsb
+  
+  sniffle:
+    environment:
+      - USB_DEVICE:${USB_DEVICE}
+    container_name: sniffle
+    build:
+      context: ./sniffle
+      dockerfile: Dockerfile
+    image: sniffle:latest
+    ports:
+      - "2402:2402"
+    device_cgroup_rules:
+      - 'c 189:* rwm'
+    tty: true
+    devices: 
+      - ${USB_DEVICE}:${USB_DEVICE}
+    entrypoint: ["python3", "/src/Sniffle/python_cli/sniff_receiver.py", "-s", "${USB_DEVICE}", "-l", "-e", "-z", "--zmqhost", "0.0.0.0", "--zmqport", "2402"]
+
+  zmqToTar1090:
+    container_name: zmqToTar1090
+    build:
+      context: ./zmqToTar1090
+      dockerfile: Dockerfile
+    image: zmqtotar1090:latest
+    network_mode: host
+    entrypoint: ["python3", "/src/zmqToTar1090/zmqToTar1090.py", "--zmq-host", "127.0.0.1", "--zmq-port", "2402"]
+    volumes:
+      - /run/readsb:/run/readsb
