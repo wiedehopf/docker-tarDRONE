@@ -24,7 +24,7 @@ services:
   
   sniffle:
     environment:
-      - USB_DEVICE:${USB_DEVICE}
+      - ${USB_DEVICE}:${USB_DEVICE}
     container_name: sniffle
     build:
       context: ./sniffle
