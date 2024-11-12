@@ -14,7 +14,7 @@ This project provides a dockerized way to track drones via RemoteID (FAA require
 - [DroneID](https://github.com/bkerler/DroneID) for decoding the BLE traffic
 - [zmqToTar1090](https://github.com/l0g-lab/zmqToTar1090) for converting decoded data into specific JSON format for ingestion into tar1090
 
-![drone_track](image.png)
+![drone_track](/images/output.gif)
 
 ## Requirements
 
