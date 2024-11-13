@@ -37,11 +37,7 @@ This project provides a dockerized way to track drones via RemoteID (FAA require
 
     This will take some time while the containers are downloaded and software is built.
 
-2. Once the project is up (you can confirm with `$ docker ps`), you'll need to copy the [receiver.json](https://github.com/l0g-lab/docker-tarDRONE/blob/main/tar1090_mod/receiver.json) file into the `/run/readsb` directory on your local machine. *This will hopefully soon be automated*
-
-    Until this step is automated, you may want to edit the receiver.json file with the LAT/LONG values from the above installation step 3 for accuracy on the map.
-
-3. Open your web browser to: `http://localhost:8078`
+2. Open your web browser to: `http://localhost:8078`
 
 ## License
 

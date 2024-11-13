@@ -169,9 +169,11 @@ RUN \
 
 COPY rootfs/ /
 
-COPY receiver.json /run/readsb/
-#RUN sed -i 's/49.3/${LAT}/' /run/readsb/receiver.json
-#RUN sed -i 's/9.3/${LONG}/' /run/readsb/receiver.json
+ARG LAT
+ARG LONG
+COPY receiver.json /tmp/receiver.json
+RUN sed -i "s/49.3/${LAT}/g" /tmp/receiver.json
+RUN sed -i "s/9.3/${LONG}/g" /tmp/receiver.json
 
 EXPOSE 80/tcp
 

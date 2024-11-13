@@ -3,12 +3,13 @@ services:
   tar1090_mod:
     environment:
       - TZ=${TZ}
-      - LAT=${LAT}
-      - LONG=${LONG}
     container_name: tar1090_mod
     build:
       context: ./tar1090_mod
       dockerfile: Dockerfile
+      args:
+        LAT: ${LAT}
+        LONG: ${LONG}
     image: tar1090_mod:latest
     ports: 
       - 8078:80
@@ -21,6 +22,7 @@ services:
       - /opt/adsb/tar1090/graphs1090:/var/lib/collectd
       - /proc/diskstats:/proc/diskstats:ro
       - /run/readsb:/run/readsb
+    command: /bin/sh -c "mv /tmp/receiver.json /run/readsb/receiver.json && tail -f /dev/null"
     networks:
       drone_net:
         ipv4_address: 172.19.0.10
@@ -64,7 +66,6 @@ services:
       context: ./zmqToTar1090
       dockerfile: Dockerfile
     image: zmqtotar1090:latest
-    # network_mode: host
     entrypoint: ["python3", "/src/zmqToTar1090/zmqToTar1090.py", "--zmq-host", "172.19.0.12", "--zmq-port", "4224", "-d"]
     volumes:
       - /run/readsb:/run/readsb
