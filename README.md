@@ -24,18 +24,21 @@ This project provides a dockerized way to track drones via RemoteID (FAA require
 
 ## Installation
 
-1. Clone this repo to your local machine: `$ git clone https://github.com/l0g-lab/docker-tarDRONE`
-2. Change directory into the project: `$ cd docker-tarDRONE`
+1. Clone this repo to your local machine:\
+    `$ git clone https://github.com/l0g-lab/docker-tarDRONE`
+2. Change directory into the project:\
+    `$ cd docker-tarDRONE`
 3. Modify the `.env` file within the project root directory with:\
-    TZ: Your current TimeZone\
-    LAT/LONG: The latitude & longitude of your current location or the RemoteID receiver\
-    USB_DEVICE: The device of your sniffle receiver dongle (normally `/dev/ttyUSB0` if you have no other devices connected)
+    `TZ`: Your current TimeZone\
+    `LAT/LONG`: The latitude & longitude of your current location or the RemoteID receiver\
+    `USB_DEVICE`: The device of your sniffle receiver dongle (normally `/dev/ttyUSB0` if you have no other devices connected)
 
 ## How to use
 
-1. Run the project with: `$ DOCKER_BUILDKIT=1 docker-compose -f docker-compose-tarDRONE.yml up`
+1. Run the project with:\
+    `$ DOCKER_BUILDKIT=1 docker-compose -f docker-compose-tarDRONE.yml up`
 
-    This will take some time while the containers are downloaded and software is built.
+    This will take some time while the containers are downloaded and built.
 
 2. Open your web browser to: `http://localhost:8078`
 
