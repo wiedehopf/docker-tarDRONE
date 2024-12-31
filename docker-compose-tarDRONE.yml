@@ -1,28 +1,22 @@
 version: '3.8'
 services:
-  tar1090_mod:
+  ultrafeeder:
     environment:
       - TZ=${TZ}
-    container_name: tar1090_mod
-    build:
-      context: ./tar1090_mod
-      dockerfile: Dockerfile
-      args:
-        LAT: ${LAT}
-        LONG: ${LONG}
-    image: tar1090_mod:latest
-    ports: 
+      - READSB_LAT=${LAT}
+      - READSB_LON=${LONG}
+      - 'TAR1090_CONFIGJS_APPEND=droneJson="./data/drone.json";'
+    container_name: ultrafeeder
+    image: ghcr.io/sdr-enthusiasts/docker-adsb-ultrafeeder
+    ports:
       - 8078:80
     tmpfs:
       - /run:exec,size=64M
-      - /var/log
     volumes:
-      - /opt/adsb/tar1090/globe_history:/var/globe_history
-      - /opt/adsb/tar1090/timelapse1090:/var/timelapse1090
-      - /opt/adsb/tar1090/graphs1090:/var/lib/collectd
+      - /opt/adsb/ultrafeeder/globe_history:/var/globe_history
+      - /opt/adsb/ultrafeeder/graphs1090:/var/lib/collectd
       - /proc/diskstats:/proc/diskstats:ro
       - /run/readsb:/run/readsb
-    command: /bin/sh -c "mv /tmp/receiver.json /run/readsb/receiver.json && tail -f /dev/null"
     networks:
       drone_net:
         ipv4_address: 172.19.0.10
